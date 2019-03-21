@@ -1,0 +1,4 @@
+github_oauth_authenticator:
+  oauth_callback_url: CALLBACK_URL
+  client_id: CLIENT_ID
+  client_secret: CLIENT_SECRET

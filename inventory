@@ -1,0 +1,3 @@
+[all]
+test ansible_user=ubuntu
+ifcatest ansible_user=ubuntu ansible_host=193.146.75.211

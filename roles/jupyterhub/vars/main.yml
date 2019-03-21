@@ -1,0 +1,12 @@
+miniconda_version: latest
+miniconda_python: 3
+miniconda_prefix: "{{ ansible_env.HOME }}/miniconda{{ miniconda_python }}"
+miniconda_env:
+  name: jupyterhub
+  channels:
+    - conda-forge
+    - defaults
+  dependencies:
+    - jupyterhub
+    - notebook
+    - setuptools # for oauth authenticator

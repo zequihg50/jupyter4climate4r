@@ -1,0 +1,21 @@
+- name: Install docker
+  become: True
+  apt: state=present name=docker.io update_cache=True
+
+- name: Add user to the docker group
+  become: True
+  user: name={{ ansible_user }} groups=docker append=yes
+
+- name: Create runtime directory
+  file: state=directory path={{ jupyterhub_runtime }}
+
+- name: Template jupyterhub config
+  template: src=jupyterhub-config.py.j2 dest={{ jupyterhub_runtime}}/jupyterhub.py
+
+- name: Install oauthAuthenticator and dockerspawner
+  pip: name={{ item }} executable={{ miniconda_prefix }}/envs/{{ miniconda_env.name }}/bin/pip
+  vars:
+    ansible_python_interpreter: "{{ miniconda_prefix }}/envs/{{ miniconda_env.name }}/bin/python3"
+  environment:
+    PATH: "{{ miniconda_prefix }}/envs/{{ miniconda_env.name }}/bin:{{ ansible_env.PATH }}"
+  with_items: ['oauthenticator', 'dockerspawner']

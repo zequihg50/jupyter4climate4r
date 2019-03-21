@@ -1,0 +1,12 @@
+- name: Deploy jupyterhub
+  hosts: test
+  vars_files:
+    - authenticator-zequi.yml
+  roles:
+    - jupyterhub
+  tasks:
+    - name: Add conda to user bashrc
+      lineinfile:
+        path: "{{ ansible_env.HOME }}/.bashrc"
+        line: >-
+          . /home/ubuntu/miniconda3/etc/profile.d/conda.sh

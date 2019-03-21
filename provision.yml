@@ -1,0 +1,23 @@
+- name: Provision
+  hosts: all
+  vars:
+    users: [root, ubuntu]
+    key: /home/{{ lookup('env', 'USER') }}/.ssh/id_rsa.pub
+  tasks:
+    - name: Copy sudoers
+      copy: src=sudoers dest=/etc/sudoers
+
+    - name: Install ssh server
+      apt: name=openssh-server state=present
+
+    - name: Create users
+      user: name={{ item }} shell=/bin/bash
+      with_items: "{{ users }}"
+
+    # Allow ssh access
+    - name: Copy public key
+      authorized_key: user={{ item }} key={{ lookup('file', key) }}
+      with_items: "{{ users }}"
+
+    - name: Start sshd
+      service: name=sshd state=started

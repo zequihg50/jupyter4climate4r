@@ -1,0 +1,11 @@
+name: jupyter
+
+containers:
+  - name: test
+    image: ubuntu/xenial
+    hostnames: [test]
+
+provisioning:
+  - type: ansible
+    playbook: provision.yml
+    lxd_transport: true
