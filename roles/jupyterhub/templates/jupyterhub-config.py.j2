@@ -9,9 +9,9 @@ from jupyter_client.localinterfaces import public_ips
 c.JupyterHub.hub_ip = public_ips()[0]
 
 runtime_dir = '{{ jupyterhub_runtime }}'
-c.JupyterHub.cookie_secret_file = os.path.join('{{ jupyterhub_runtime }}', 'cookie_secret')
-c.JupyterHub.db_url = os.path.join('{{ jupyterhub_runtime }}', 'jupyterhub.sqlite')
-c.ConfigurableHTTPProxy.pid_file = os.path.join('{{ jupyterhub_runtime }}', 'jupyterhub-proxy.pid')
+c.JupyterHub.cookie_secret_file = os.path.join(runtime_dir, 'cookie_secret')
+c.JupyterHub.db_url = os.path.join(runtime_dir, 'jupyterhub.sqlite')
+c.ConfigurableHTTPProxy.pid_file = os.path.join(runtime_dir, 'jupyterhub-proxy.pid')
 
 {% if github_oauth_authenticator is defined -%}
 from oauthenticator.github import GitHubOAuthenticator
@@ -24,9 +24,9 @@ c.GitHubOAuthenticator.client_secret = '{{ github_oauth_authenticator.client_sec
 # Spawner
 # https://github.com/jupyterhub/dockerspawner/tree/master/examples/oauth
 c.JupyterHub.spawner_class = 'dockerspawner.DockerSpawner'
-c.DockerSpawner.image = 'test2:latest'
+c.DockerSpawner.image = '{{ jupyterhub_docker_image }}'
 
-notebook_dir = os.environ.get('DOCKER_NOTEBOOK_DIR') or '/home/jovyan/work'
+notebook_dir = os.environ.get('DOCKER_NOTEBOOK_DIR') or '/home/jovyan'
 c.DockerSpawner.notebook_dir = notebook_dir
-c.DockerSpawner.volumes = { 'jupyterhub-user-{username}': os.path.join(notebook_dir, 'user'),
-                            'test-volume-{username}': os.path.join(notebook_dir, 'test') }
+c.DockerSpawner.volumes = { 'jupyterhub-user-{username}': notebook_dir,
+                            '{{ climate4r_demo_directory }}': os.path.join(notebook_dir, 'demo') }

@@ -1,5 +1,8 @@
-- name: Deploy jupyterhub
-  hosts: test
+- name: Deploy climate4R jupyterhub
+  hosts: ifcatest
+  vars:
+    climate4r_demo_directory: /usr/share/climate4r/examples
+    user: "{{ ansible_user }}"
   vars_files:
     - authenticator-zequi.yml
   roles:
@@ -9,4 +12,17 @@
       lineinfile:
         path: "{{ ansible_env.HOME }}/.bashrc"
         line: >-
-          . /home/ubuntu/miniconda3/etc/profile.d/conda.sh
+          . {{ miniconda_prefix }}/etc/profile.d/conda.sh
+
+    - name: Create directory for climate4r example data
+      become: True
+      file: state=directory path={{ climate4r_demo_directory }} group={{ user }} mode=0755
+
+    - name: Copy climate4r example data
+      become: True
+      copy:
+        src: climate4r-data/
+        dest: "{{ climate4r_demo_directory }}"
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: 0744

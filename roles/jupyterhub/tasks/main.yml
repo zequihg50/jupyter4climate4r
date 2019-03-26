@@ -10,7 +10,10 @@
   file: state=directory path={{ jupyterhub_runtime }}
 
 - name: Template jupyterhub config
-  template: src=jupyterhub-config.py.j2 dest={{ jupyterhub_runtime}}/jupyterhub.py
+  template: src=jupyterhub-config.py.j2 dest={{ jupyterhub_runtime}}/{{ jupyterhub_config }}
+
+- name: Pull docker image {{ jupyterhub_docker_image }}
+  command: docker image pull {{ jupyterhub_docker_image }}
 
 - name: Install oauthAuthenticator and dockerspawner
   pip: name={{ item }} executable={{ miniconda_prefix }}/envs/{{ miniconda_env.name }}/bin/pip
@@ -19,3 +22,11 @@
   environment:
     PATH: "{{ miniconda_prefix }}/envs/{{ miniconda_env.name }}/bin:{{ ansible_env.PATH }}"
   with_items: ['oauthenticator', 'dockerspawner']
+
+- name: Template jupyterhub systemd service
+  become: True
+  template: src=jupyterhub.service.j2 dest=/etc/systemd/system/jupyterhub.service mode=0644
+
+- name: Restart systemd
+  become: True
+  command: systemctl daemon-reload

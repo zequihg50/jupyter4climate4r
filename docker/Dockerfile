@@ -10,7 +10,7 @@ RUN apt update && apt install -y build-essential openjdk-8-jre unzip && \
 
 USER $NB_USER
 
-RUN conda install -y -c r -c conda-forge r-irkernel libnetcdf r-rjava r-git2r r-udunits2 r-devtools r-rgdal r-rgeos
+RUN conda install -y -c r -c conda-forge r-irkernel libnetcdf r-rjava r-git2r r-udunits2 r-devtools r-rgdal r-rgeos r-rcurl
 
 RUN R --vanilla -e 'install.packages("lattice", repos = "http://cran.rediris.es/")' && \
     R --vanilla -e 'install.packages("Matrix", repos = "http://cran.rediris.es/")' && \
@@ -27,7 +27,7 @@ RUN R --vanilla -e 'install.packages("lattice", repos = "http://cran.rediris.es/
     R --vanilla -e 'install.packages("sp", repos = "http://cran.rediris.es/")' && \
     R --vanilla -e 'install.packages("MASS", repos = "http://cran.rediris.es/")' && \
     R --vanilla -e 'install.packages("SPEI", repos = "http://cran.rediris.es/")' && \
-    R --vanilla -e 'install.packages("RCurl", repos = "http://cran.rediris.es/")' && \
+#    R --vanilla -e 'install.packages("RCurl", repos = "http://cran.rediris.es/")' && \
     R --vanilla -e 'install.packages("deepnet", repos = "http://cran.rediris.es/")' && \
     R --vanilla -e 'install.packages("gridGraphics", repos = "http://cran.rediris.es/")' && \
     R --vanilla -e 'install.packages("gridExtra", repos = "http://cran.rediris.es/")' && \
