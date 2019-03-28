@@ -26,3 +26,6 @@
         owner: "{{ user }}"
         group: "{{ user }}"
         mode: 0744
+
+    - name: Copy user whitelist
+      copy: src=whitelist dest={{ jupyterhub_runtime }}

@@ -19,6 +19,22 @@ c.JupyterHub.authenticator_class = GitHubOAuthenticator
 c.GitHubOAuthenticator.oauth_callback_url = '{{ github_oauth_authenticator.oauth_callback_url }}'
 c.GitHubOAuthenticator.client_id = '{{ github_oauth_authenticator.client_id }}'
 c.GitHubOAuthenticator.client_secret = '{{ github_oauth_authenticator.client_secret }}'
+
+c.GitHubOAuthenticator.whitelist = whitelist = set()
+c.GitHubOAuthenticator.admin_users = admin = set()
+
+join = os.path.join
+here = os.path.dirname(__file__)
+with open(join(here, 'whitelist')) as f:
+    for line in f:
+        if not line:
+            continue
+        parts = line.split()
+        name = parts[0]
+        whitelist.add(name)
+        if len(parts) > 1 and parts[1] == 'admin':
+            admin.add(name)
+
 {% endif %}
 
 # Spawner

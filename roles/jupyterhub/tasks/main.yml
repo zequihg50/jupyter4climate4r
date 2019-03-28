@@ -11,7 +11,7 @@
 
 - name: Template jupyterhub config
   template: src=jupyterhub-config.py.j2 dest={{ jupyterhub_runtime}}/{{ jupyterhub_config }}
-
+  
 - name: Pull docker image {{ jupyterhub_docker_image }}
   command: docker image pull {{ jupyterhub_docker_image }}
 
@@ -26,7 +26,9 @@
 - name: Template jupyterhub systemd service
   become: True
   template: src=jupyterhub.service.j2 dest=/etc/systemd/system/jupyterhub.service mode=0644
+  register: jupyterhub_service
 
 - name: Restart systemd
   become: True
   command: systemctl daemon-reload
+  when: jupyterhub_service.changed
