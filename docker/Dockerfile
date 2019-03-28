@@ -41,10 +41,10 @@ RUN R --vanilla -e 'install.packages("lattice", repos = "http://cran.rediris.es/
     R --vanilla -e 'install.packages("padr", repos = "http://cran.rediris.es/")' && \
     R --vanilla -e 'install.packages("easyVerification", repos = "http://cran.rediris.es/")' && \
     R --vanilla -e 'install.packages("latticeExtra", repos = "http://cran.rediris.es/")' && \
-    R --vanilla -e 'install.packages("abind ", repos = "https://cloud.r-project.org")'
+    R --vanilla -e 'install.packages("abind ", repos = "https://cloud.r-project.org")' && \
 
 # SantanderMetGroup
-RUN R --vanilla -e 'library(devtools);install_github("SantanderMetGroup/loadeR.java")' && \
+    R --vanilla -e 'library(devtools);install_github("SantanderMetGroup/loadeR.java")' && \
     R --vanilla -e 'library(devtools);install_github("SantanderMetGroup/loadeR")' && \
     R --vanilla -e 'library(devtools);install_github("SantanderMetGroup/loadeR.ECOMS")' && \
     R --vanilla -e 'library(devtools);install_github("SantanderMetGroup/transformeR")' && \
