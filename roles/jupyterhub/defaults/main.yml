@@ -1,3 +1,4 @@
 jupyterhub_runtime: "{{ ansible_env.HOME }}/jupyterhub"
 jupyterhub_config: jupyterhub_config.py
-jupyterhub_docker_image: zequihg50/climate4r
+jupyterhub_docker_image: santandermetgroup/climate4r
+

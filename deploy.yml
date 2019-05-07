@@ -1,31 +1,44 @@
 - name: Deploy climate4R jupyterhub
-  hosts: ifcatest
+  hosts: all
   vars:
-    climate4r_demo_directory: /usr/share/climate4r/examples
     user: "{{ ansible_user }}"
+    jupyterhub_domain: hub.ipcc.ifca.es
+    jupyterhub_users: "{{ ansible_env.HOME }}/climate4r-users"
+    jupyterhub_data: "{{ ansible_env.HOME }}/climate4r-data"
   vars_files:
-    - authenticator-zequi.yml
+    - authenticator-{{ inventory_hostname }}.yml
   roles:
     - jupyterhub
+  pre_tasks:
+    - name: Create mountpoints
+      file: state=directory path={{ ansible_env.HOME }}/{{ item }}
+      with_items: [climate4r-users, climate4r-data]
+
+    - name: Add climate4r-users to /etc/fstab
+      become: True
+      lineinfile:
+        path: /etc/fstab
+        line: "{{ fstab_users }}"
+      when: fstab_users is defined
+
+    - name: Add climate4r-data to /etc/fstab
+      become: True
+      lineinfile:
+        path: /etc/fstab
+        line: "{{ fstab_data }}"
+      when: fstab_data is defined
+
+    - name: Add hostname to /etc/hosts
+      become: True
+      lineinfile:
+        path: /etc/hosts
+        line: 127.0.0.1 {{ ansible_hostname }}
   tasks:
     - name: Add conda to user bashrc
       lineinfile:
         path: "{{ ansible_env.HOME }}/.bashrc"
         line: >-
           . {{ miniconda_prefix }}/etc/profile.d/conda.sh
-
-    - name: Create directory for climate4r example data
-      become: True
-      file: state=directory path={{ climate4r_demo_directory }} group={{ user }} mode=0755
-
-    - name: Copy climate4r example data
-      become: True
-      copy:
-        src: climate4r-data/
-        dest: "{{ climate4r_demo_directory }}"
-        owner: "{{ user }}"
-        group: "{{ user }}"
-        mode: 0744
 
     - name: Copy user whitelist
       copy: src=whitelist dest={{ jupyterhub_runtime }}

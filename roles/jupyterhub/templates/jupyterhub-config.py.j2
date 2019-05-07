@@ -45,4 +45,4 @@ c.DockerSpawner.image = '{{ jupyterhub_docker_image }}'
 notebook_dir = os.environ.get('DOCKER_NOTEBOOK_DIR') or '/home/jovyan'
 c.DockerSpawner.notebook_dir = notebook_dir
 c.DockerSpawner.volumes = { 'jupyterhub-user-{username}': notebook_dir,
-                            '{{ climate4r_demo_directory }}': os.path.join(notebook_dir, 'demo') }
+                            '{{ jupyterhub_data }}': os.path.join(notebook_dir, 'shared') }

@@ -1,0 +1,11 @@
+[Unit]
+Description=Jupyterhub
+After=syslog.target network.target
+
+[Service]
+User={{ ansible_user }}
+Environment="PATH={{ miniconda_prefix }}/envs/{{ miniconda_env.name }}/bin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
+ExecStart={{ miniconda_prefix }}/envs/{{ miniconda_env.name }}/bin/jupyterhub -f {{ jupyterhub_runtime }}/{{ jupyterhub_config }}
+
+[Install]
+WantedBy=multi-user.target

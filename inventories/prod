@@ -1,0 +1,2 @@
+[all]
+meteohub ansible_host=193.146.75.220 ansible_user=ubuntu fstab_users="LABEL=climate4r-users   /home/ubuntu/climate4r-users    auto    defaults        0       2" fstab_data="LABEL=climate4r-data   /home/ubuntu/climate4r-data    auto    defaults        0       2"

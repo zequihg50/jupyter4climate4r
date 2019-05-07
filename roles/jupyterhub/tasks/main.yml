@@ -1,3 +1,6 @@
+- name: Deploy httpd reverse proxy
+  import_tasks: httpd.yml
+
 - name: Install docker
   become: True
   apt: state=present name=docker.io update_cache=True
@@ -6,6 +9,11 @@
   become: True
   user: name={{ ansible_user }} groups=docker append=yes
 
+- name: Template docker service
+  become: True
+  template: src=docker.service.j2 dest=/lib/systemd/system/docker.service
+  register: docker_service
+
 - name: Create runtime directory
   file: state=directory path={{ jupyterhub_runtime }}
 
@@ -13,6 +21,7 @@
   template: src=jupyterhub-config.py.j2 dest={{ jupyterhub_runtime}}/{{ jupyterhub_config }}
   
 - name: Pull docker image {{ jupyterhub_docker_image }}
+  become: True
   command: docker image pull {{ jupyterhub_docker_image }}
 
 - name: Install oauthAuthenticator and dockerspawner
@@ -31,4 +40,10 @@
 - name: Restart systemd
   become: True
   command: systemctl daemon-reload
-  when: jupyterhub_service.changed
+  when: jupyterhub_service.changed or docker_service.changed
+
+- name: Restart docker
+  become: True
+  service: name=docker state=restarted
+  when: docker_service.changed
+

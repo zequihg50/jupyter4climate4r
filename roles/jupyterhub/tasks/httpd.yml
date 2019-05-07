@@ -1,0 +1,23 @@
+- name: Install httpd
+  become: True
+  apt: state=present name=apache2
+
+- name: Disable default site
+  become: True
+  command: a2dissite 000-default
+
+- name: Enable httpd modules
+  become: True
+  command: a2enmod ssl rewrite proxy proxy_http proxy_wstunnel
+
+- name: Template httpd conf file
+  become: True
+  template: src=jupyterhub.conf.j2 dest=/etc/apache2/sites-available/jupyterhub.conf
+
+- name: Enable jupyterhub
+  become: True
+  command: a2ensite jupyterhub
+
+- name: Restart httpd
+  become: True
+  service: name=apache2 state=restarted
