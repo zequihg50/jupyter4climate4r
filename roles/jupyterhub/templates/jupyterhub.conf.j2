@@ -11,12 +11,12 @@
   ServerName {{ jupyterhub_domain }}
 
   # configure SSL
-  SSLEngine on
-  SSLCertificateFile /etc/letsencrypt/live/{{ jupyterhub_domain }}/fullchain.pem
-  SSLCertificateKeyFile /etc/letsencrypt/live/{{ jupyterhub_domain }}/privkey.pem
-  SSLProtocol All -SSLv2 -SSLv3
-  #SSLOpenSSLConfCmd DHParameters /etc/ssl/certs/dhparam.pem
-  SSLCipherSuite EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH
+  #SSLEngine on
+  #SSLCertificateFile /etc/letsencrypt/live/{{ jupyterhub_domain }}/fullchain.pem
+  #SSLCertificateKeyFile /etc/letsencrypt/live/{{ jupyterhub_domain }}/privkey.pem
+  #SSLProtocol All -SSLv2 -SSLv3
+  ##SSLOpenSSLConfCmd DHParameters /etc/ssl/certs/dhparam.pem
+  #SSLCipherSuite EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH
 
   # Use RewriteEngine to handle websocket connection upgrades
   RewriteEngine On
