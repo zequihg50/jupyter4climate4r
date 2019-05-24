@@ -1,5 +1,6 @@
 - name: Deploy httpd reverse proxy
-  import_tasks: httpd.yml
+  include_tasks: httpd.yml
+  when: jupyterhub_httpd_proxy
 
 - name: Install docker
   become: True
