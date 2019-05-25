@@ -13,11 +13,10 @@
 - name: Template httpd conf file
   become: True
   template: src=jupyterhub.conf.j2 dest=/etc/apache2/sites-available/jupyterhub.conf
+  notify:
+    - restart httpd
 
 - name: Enable jupyterhub
   become: True
   command: a2ensite jupyterhub
 
-- name: Restart httpd
-  become: True
-  service: name=apache2 state=restarted
