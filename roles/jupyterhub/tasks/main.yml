@@ -31,7 +31,7 @@
     ansible_python_interpreter: "{{ miniconda_prefix }}/envs/{{ miniconda_env.name }}/bin/python3"
   environment:
     PATH: "{{ miniconda_prefix }}/envs/{{ miniconda_env.name }}/bin:{{ ansible_env.PATH }}"
-  with_items: ['oauthenticator', 'dockerspawner']
+  with_items: ['oauthenticator', 'dockerspawner', 'jupyterhub-dummyauthenticator']
 
 - name: Template jupyterhub systemd service
   become: True
@@ -47,4 +47,3 @@
   become: True
   service: name=docker state=restarted
   when: docker_service.changed
-

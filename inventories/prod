@@ -1,2 +1,10 @@
 [all]
-meteohub ansible_host=193.146.75.220 ansible_user=ubuntu fstab_users="LABEL=climate4r-users   /home/ubuntu/climate4r-users    auto    defaults        0       2" fstab_data="LABEL=climate4r-data   /home/ubuntu/climate4r-data    auto    defaults        0       2"
+meteohub ansible_host=193.146.75.220 ansible_user=ubuntu
+
+[all:vars]
+fstab_users="LABEL=climate4r-users   /home/ubuntu/climate4r-users    auto    defaults        0       2"
+fstab_data="LABEL=climate4r-data   /home/ubuntu/climate4r-data    auto    defaults        0       2"
+jupyterhub_httpd_proxy=True
+jupyterhub_users="{{ ansible_env.HOME }}/climate4r-users"
+jupyterhub_data="{{ ansible_env.HOME }}/climate4r-data"
+jupyterhub_domain=hub.ipcc.ifca.es

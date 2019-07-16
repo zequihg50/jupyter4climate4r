@@ -37,6 +37,10 @@ with open(join(here, 'whitelist')) as f:
 
 {% endif %}
 
+{% if jupyterhub_dummy_authenticator -%}
+c.JupyterHub.authenticator_class = 'dummyauthenticator.DummyAuthenticator'
+{% endif %}
+
 # Spawner
 # https://github.com/jupyterhub/dockerspawner/tree/master/examples/oauth
 c.JupyterHub.spawner_class = 'dockerspawner.DockerSpawner'

@@ -1,12 +1,7 @@
-- name: Deploy climate4R jupyterhub
+- name: Deploy climate4R in jupyterhub
   hosts: all
   vars:
     user: "{{ ansible_user }}"
-    jupyterhub_domain: hub.ipcc.ifca.es
-    jupyterhub_users: "{{ ansible_env.HOME }}/climate4r-users"
-    jupyterhub_data: "{{ ansible_env.HOME }}/climate4r-data"
-    jupyterhub_httpd_proxy: True
-    jupyterhub_docker_image: santandermetgroup/climate4r
   vars_files:
     - authenticator-{{ inventory_hostname }}.yml
   roles:
@@ -18,23 +13,17 @@
 
     - name: Add climate4r-users to /etc/fstab
       become: True
-      lineinfile:
-        path: /etc/fstab
-        line: "{{ fstab_users }}"
+      lineinfile: path=/etc/fstab line={{ fstab_users }}
       when: fstab_users is defined
 
     - name: Add climate4r-data to /etc/fstab
       become: True
-      lineinfile:
-        path: /etc/fstab
-        line: "{{ fstab_data }}"
+      lineinfile: path=/etc/fstab line={{ fstab_data }}
       when: fstab_data is defined
 
     - name: Add hostname to /etc/hosts
       become: True
-      lineinfile:
-        path: /etc/hosts
-        line: 127.0.0.1 {{ ansible_hostname }}
+      lineinfile: path=/etc/hosts line="127.0.0.1 {{ ansible_hostname }}"
   tasks:
     - name: Add conda to user bashrc
       lineinfile:

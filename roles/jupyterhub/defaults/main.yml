@@ -1,5 +1,6 @@
 jupyterhub_runtime: "{{ ansible_env.HOME }}/jupyterhub"
 jupyterhub_config: jupyterhub_config.py
-jupyterhub_docker_image: jupyter/base-notebook:latest
+jupyterhub_docker_image: santandermetgroup/jupyterhub4climate4r:latest
 jupyterhub_httpd_proxy: False
+jupyterhub_dummy_authenticator: False
 

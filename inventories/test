@@ -1,3 +1,8 @@
 [all]
-test ansible_user=ubuntu
-ifcatest ansible_user=ubuntu ansible_host=193.146.75.211
+meteohub ansible_host=193.146.75.211 ansible_user=ubuntu
+
+[all:vars]
+jupyterhub_httpd_proxy=False
+jupyterhub_dummy_authenticator=True
+jupyterhub_users="{{ ansible_env.HOME }}/climate4r-users"
+jupyterhub_data="{{ ansible_env.HOME }}/climate4r-data"
