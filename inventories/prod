@@ -6,5 +6,5 @@ fstab_users="LABEL=climate4r-users   /home/ubuntu/climate4r-users    auto    def
 fstab_data="LABEL=climate4r-data   /home/ubuntu/climate4r-data    auto    defaults        0       2"
 jupyterhub_httpd_proxy=True
 jupyterhub_users="{{ ansible_env.HOME }}/climate4r-users"
-jupyterhub_data="/home/ubuntu/manila-mount/HUB"
+jupyterhub_data="/gpfs/ces/share-7c11c2a4-9d9f-40f5-b95e-396bcbf3f608/HUB"
 jupyterhub_domain=hub.ipcc.ifca.es
